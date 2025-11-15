@@ -5,3 +5,4 @@ pyyaml
 pdf2image
 Pillow
 tqdm
+ultralytics

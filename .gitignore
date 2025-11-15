@@ -1,7 +1,9 @@
 data/
 output/
 dataset/
-
+runs/
+yolov8.pt
+yolo11.pt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -31,6 +31,21 @@ paths:
 
 
 
+File: C:\Users\aezak\Desktop\desktop folder\swe\invtx_hackathon_folder\invtx-hackathon\doc_detector.yaml
+```yaml
+path: C:/Users/aezak/Desktop/desktop folder/swe/invtx_hackathon_folder/invtx-hackathon/dataset
+
+train: images/train
+val: images/val
+
+names:
+  0: signature
+  1: qr
+  2: stamp
+```
+
+
+
 File: C:\Users\aezak\Desktop\desktop folder\swe\invtx_hackathon_folder\invtx-hackathon\eda.py
 ```python
 from pathlib import Path
@@ -431,11 +446,11 @@ The script performs two critical transformations for each annotated page in the 
 
 ### Output Structure
 
-After running, the script populates the `processed_output` directory with a clean, model-ready structure. The image and label files share the same base name for easy pairing during training.
+After running, the script populates the `output` directory with a clean, model-ready structure. The image and label files share the same base name for easy pairing during training.
 
 ```
-data/
-└── processed/
+root/
+└── output/
     ├── images/
     │   ├── document1_page_1.jpg
     │   ├── document1_page_2.jpg
@@ -444,6 +459,89 @@ data/
         ├── document1_page_1.txt
         ├── document1_page_2.txt
         └── ...
+```
+
+## Splitting the Dataset
+
+This script prepares the data for model training by splitting it into training and validation sets.
+
+### Usage
+
+Run the script from the project root:
+
+```bash
+python split_data.py
+```
+
+This will take the contents of the `output/` directory, perform a random 80/20 split, and create the final YOLO-compatible structure in a new `dataset/` folder. The `output/` directory will be empty after the script runs.
+
+### Output Structure
+
+```
+dataset/
+├── images/
+│   ├── train/
+│   └── val/
+└── labels/
+    ├── train/
+    └── val/
+```
+
+
+
+File: C:\Users\aezak\Desktop\desktop folder\swe\invtx_hackathon_folder\invtx-hackathon\split_data.py
+```python
+import pathlib
+from pathlib import Path
+import random
+import math
+
+#define necessary paths
+processed_output = Path.cwd() / "output"
+new_output_dir = Path.cwd() / "dataset"
+
+# create the subdirs
+(new_output_dir / "images/train").mkdir(parents=True,exist_ok=True)
+(new_output_dir / "images/val").mkdir(parents=True,exist_ok=True)
+(new_output_dir / "labels/train").mkdir(parents=True,exist_ok=True)
+(new_output_dir / "labels/val").mkdir(parents=True,exist_ok=True)
+
+#get list of img files from output
+jpg_path_list = sorted((processed_output / "images").glob("*.jpg"))
+
+# shuffle the list
+random.shuffle(jpg_path_list)
+
+# define split ratio
+train_split = 0.8
+
+# find index to split
+index_to_split = math.floor(len(jpg_path_list) * train_split)
+
+for index,jpg_path in enumerate(jpg_path_list):
+    print(f"WE ARE WORKING ON {jpg_path.name}")
+    
+    label_path = processed_output / "labels" / f"{jpg_path.stem}.txt"
+    
+    # training set
+    if index < index_to_split:
+        print(f"{jpg_path.name} is going to the train split")
+        img_destination_path = new_output_dir / "images" / "train" / jpg_path.name
+        label_destination_path = new_output_dir / "labels" / "train" / label_path.name
+    # val set
+    else:
+        print(f"{jpg_path.name} is going to the val split")
+        img_destination_path = new_output_dir / "images" / "val" / jpg_path.name
+        label_destination_path = new_output_dir / "labels" / "val" / label_path.name
+        
+    
+    
+    # move the img and paths
+    jpg_path.rename(img_destination_path)
+    label_path.rename(label_destination_path)
+
+
+
 ```
 
 
