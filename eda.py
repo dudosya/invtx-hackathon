@@ -6,13 +6,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from label_handler import AnnotationsFileModel, PageModel
 import pydantic
-
-def get_parsed_annotation(annotation_file_path):
-    with open(annotation_file_path,'r', encoding='utf-8') as f:
-        annot_dict = json.load(f)
-        
-    parsed_annotations = pydantic.parse_obj_as(AnnotationsFileModel,annot_dict)
-    return parsed_annotations
+from utils import get_parsed_annotation
 
 
 def get_page_data(file_data, page_number:str):

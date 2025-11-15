@@ -4,6 +4,8 @@ import yaml
 from config import AppModel
 import pydantic
 import sys
+import json
+from label_handler import AnnotationsFileModel
 
 def get_cfg():
     parser = argparse.ArgumentParser()
@@ -24,3 +26,11 @@ def get_cfg():
         sys.exit(1)
     
     return cfg
+
+
+def get_parsed_annotation(annotation_file_path):
+    with open(annotation_file_path,'r', encoding='utf-8') as f:
+        annot_dict = json.load(f)
+        
+    parsed_annotations = pydantic.parse_obj_as(AnnotationsFileModel,annot_dict)
+    return parsed_annotations
