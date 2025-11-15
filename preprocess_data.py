@@ -45,7 +45,7 @@ def main_preprocess():
             # convert that specific page of pdf to img
             pil_object_list = pdf2image.convert_from_path(
                 source_pdf_path,
-                dpi=300,
+                dpi=600,
                 first_page=page_index+1,
                 last_page=page_index+1
                 )

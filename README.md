@@ -111,3 +111,27 @@ dataset/
     ├── train/
     └── val/
 ```
+
+## Prediction
+
+To run inference on a new PDF, use the `predict.py` script. You must provide the path to the PDF and the 1-based page number you want to analyze.
+
+
+Three ways to run it:
+
+1.  **Process a specific page of a single PDF :**
+    ```bash
+    python predict.py --input data/pdfs/some_document.pdf --page 2
+    ```
+
+2.  **Process all pages of a single PDF:**
+    ```bash
+    python predict.py --input data/pdfs/some_document.pdf
+    ```
+
+3.  **Process all pages of all PDFs in a directory:**
+    ```bash
+    # Assuming you have a folder named 'test' with PDFs in it
+    python predict.py --input test/
+    ```
+
