@@ -71,11 +71,11 @@ The script performs two critical transformations for each annotated page in the 
 
 ### Output Structure
 
-After running, the script populates the `processed_output` directory with a clean, model-ready structure. The image and label files share the same base name for easy pairing during training.
+After running, the script populates the `output` directory with a clean, model-ready structure. The image and label files share the same base name for easy pairing during training.
 
 ```
-data/
-└── processed/
+root/
+└── output/
     ├── images/
     │   ├── document1_page_1.jpg
     │   ├── document1_page_2.jpg
@@ -84,4 +84,30 @@ data/
         ├── document1_page_1.txt
         ├── document1_page_2.txt
         └── ...
+```
+
+## Splitting the Dataset
+
+This script prepares the data for model training by splitting it into training and validation sets.
+
+### Usage
+
+Run the script from the project root:
+
+```bash
+python split_data.py
+```
+
+This will take the contents of the `output/` directory, perform a random 80/20 split, and create the final YOLO-compatible structure in a new `dataset/` folder. The `output/` directory will be empty after the script runs.
+
+### Output Structure
+
+```
+dataset/
+├── images/
+│   ├── train/
+│   └── val/
+└── labels/
+    ├── train/
+    └── val/
 ```
