@@ -4,6 +4,7 @@ import yaml
 from config import AppModel
 import pydantic
 import sys
+from eda import fanfo_data
 
 
 def get_cfg():
@@ -30,7 +31,7 @@ def get_cfg():
 def main():
     cfg = get_cfg()
     
-    print(cfg)
+    fanfo_data(cfg)
 
 
 

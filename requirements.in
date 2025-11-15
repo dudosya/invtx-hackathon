@@ -2,3 +2,5 @@ numpy
 matplotlib
 pydantic
 pyyaml
+pdf2image
+Pillow
