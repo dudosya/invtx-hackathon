@@ -1,0 +1,3 @@
+paths:
+  annotation_file: "data/selected_annotations.json"
+  pdf_folder: "data/pdfs"
