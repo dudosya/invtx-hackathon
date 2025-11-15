@@ -1,9 +1,5 @@
 # invtx-hackathon
 
-Of course. Here is a concise environment setup section for your `README.md` file.
-
----
-
 ## Environment Setup
 
 Follow these steps to set up the project environment. This project requires Python 3.8 or higher.
