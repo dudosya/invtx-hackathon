@@ -2,8 +2,10 @@ data/
 output/
 dataset/
 runs/
-yolov8.pt
-yolo11.pt
+*.pt
+reposcribe.md
+predictions/
+test/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

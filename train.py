@@ -7,7 +7,6 @@ def train():
     # for now lets finish this damn thing
     model = YOLO("yolov8n.pt")
 
-    # Set epochs back to a reasonable number, like 10 or 25
     model.train(
         data="doc_detector.yaml", 
         epochs=100, 
