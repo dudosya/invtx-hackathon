@@ -13,7 +13,7 @@ def train():
         imgsz=640,
         device=0,
         workers=0,
-        name='600_dpi',              
+        name='8n_grayscale_600_dpi_no_contrast',              
     )
 
 if __name__ == "__main__":

@@ -3,6 +3,7 @@ import pathlib
 import pdf2image
 import PIL
 from tqdm import tqdm
+from PIL import Image, ImageOps
 
 CLASS_MAP = {"signature": 0, "qr":1, "stamp":2}
 
@@ -52,6 +53,11 @@ def main_preprocess():
             
             #convert from path ALWAYS returns a list. therefore, it is here for clarification
             pil_object = pil_object_list[0]
+            
+            # grayscale + contrast
+            pil_object = ImageOps.grayscale(pil_object)
+            #pil_object = ImageOps.autocontrast(pil_object, cutoff=5)
+            
             
             #define save path
             output_image_path = image_path / f"{base_filename}.jpg"
