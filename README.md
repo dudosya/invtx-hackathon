@@ -1,5 +1,21 @@
 # invtx-hackathon
 
+## Project Overview
+
+This project implements a complete computer vision pipeline to detect and locate specific objects [signatures, QR codes, and stamps] within PDF documents. 
+
+## End-to-End Workflow
+
+1.  **Prepare Data**: Run `python preprocess_data.py` to convert raw PDFs and JSON annotations into JPG images and YOLO-formatted `.txt` labels.
+
+2.  **Split Dataset**: Execute `python split_data.py` to automatically divide the processed data into training and validation sets, creating the final `dataset/` directory.
+
+3.  **Train Model**: Run `python train.py` to train the YOLOv8 model on the prepared dataset. The best model weights are saved in the `runs/detect/` directory.
+
+4.  **Run Inference**: Use a trained model with `python predict.py` to detect objects in new PDF documents, generating annotated images and a structured JSON output.
+
+
+
 ## Environment Setup
 
 Follow these steps to set up the project environment. This project requires Python 3.8 or higher.
@@ -134,4 +150,42 @@ Three ways to run it:
     # Assuming you have a folder named 'test' with PDFs in it
     python predict.py --input test/
     ```
+
+
+## Training
+
+The model is trained using the Ultralytics YOLOv8 framework.
+
+### Usage
+
+To start training, run the script from the project root:
+
+```bash
+python train.py
+```
+
+### Configuration
+
+-   Dataset configuration (paths, class names) is defined in `doc_detector.yaml`.
+-   Training hyperparameters (epochs, image size, etc.) are set directly within the `train.py` script.
+
+### Output
+
+Trained model weights, logs, and validation results will be saved automatically to a new directory inside `runs/detect/`.
+
+## Model Performance
+
+Several experiments were conducted to determine the optimal preprocessing pipeline and training configuration. The key objective was to maximize the model's ability to detect signatures, QR codes, and stamps accurately. The results of these experiments are summarized below.
+
+### Summary of Experiments
+
+| # | Experiment Name          | Key Pipeline Details                 | Overall mAP50 | Overall mAP50-95 | Signature mAP50 | QR mAP50 | Stamp mAP50 |
+|---|--------------------------|--------------------------------------|---------------|------------------|-----------------|----------|-------------|
+| 1 | Baseline                 | 300 DPI, Color                       | 0.569         | 0.475            | 0.595           | 0.336    | 0.775       |
+| 2 | Less Augmentation        | 300 DPI, Color, Reduced Aug          | 0.564         | 0.470            | 0.560           | 0.357    | 0.775       |
+| 3 | Lower Learning Rate      | 300 DPI, Color                       | 0.569         | 0.475            | 0.595           | 0.336    | 0.775       |
+| 4 | High Resolution (Color)  | 600 DPI, Color                       | 0.883         | 0.718            | 0.659           | 0.995    | 0.995       |
+| 5 | High Res (Grayscale)     | 600 DPI, Grayscale, No Contrast      | 0.874         | 0.751            | 0.740           | 0.995    | 0.887       |
+| 6 | **Grayscale and Contrast** | **300 DPI, Grayscale + High Contrast** | **0.920**     | **0.777**        | **0.769**       | **0.995**| **0.995**   |
+
 
