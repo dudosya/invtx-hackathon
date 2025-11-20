@@ -1,4 +1,4 @@
-# invtx-hackathon
+# Signature, stamp and QR code detection on documents
 
 ## Project Overview
 
